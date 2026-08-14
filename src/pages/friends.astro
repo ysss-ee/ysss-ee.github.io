@@ -1,0 +1,259 @@
+---
+import { Image } from 'astro:assets';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import bwzAvatar from '../assets/friends/bwz.jpg';
+import cdtAvatar from '../assets/friends/cdt.jpg';
+import cklAvatar from '../assets/friends/ckl.webp';
+import csnAvatar from '../assets/friends/csn.jpg';
+import gwtAvatar from '../assets/friends/gwt.jpg';
+import pshAvatar from '../assets/friends/psh.jpg';
+import sjsAvatar from '../assets/friends/sjs.jpeg';
+import wjsAvatar from '../assets/friends/wjs.png';
+import yzjAvatar from '../assets/friends/yzj.png';
+import zmhAvatar from '../assets/friends/zmh.jpg';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const friends = [
+	{
+		name: 'H2SO4C',
+		link: 'https://h2so4.site',
+		avatar: cklAvatar,
+		descr: '哇是超级无敌ckl大神呐（超级大神啊.jpg）',
+	},
+	{
+		name: 'EnderCrysta2',
+		link: 'https://endercrysta2.xyz',
+		avatar: bwzAvatar,
+		descr: '友链幽幽子&入机',
+	},
+	{
+		name: '枫禾',
+		link: 'https://fenghecsn.github.io/',
+		avatar: csnAvatar,
+		descr: '友链唯一画画画画画画大手子',
+	},
+	{
+		name: '_Dreamer',
+		link: 'https://blog.stargazer-luciddream.top',
+		avatar: pshAvatar,
+		descr: '友链小埋😋',
+	},
+	{
+		name: '马克朱佩琪',
+		link: 'https://wjsblog.xyz',
+		avatar: wjsAvatar,
+		descr: '佩佩佩佩佩佩奇',
+	},
+	{
+		name: '黑蚊子多',
+		link: 'https://heavensdoor1.top',
+		avatar: cdtAvatar,
+		descr: '蚊子🦟',
+	},
+	{
+		name: 'scienct',
+		link: 'https://scienct.top',
+		avatar: gwtAvatar,
+		descr: '打卡大王能不能把打卡第一让给我几天',
+	},
+	{
+		name: 'fridayssheep',
+		link: 'https://blog.fridayssheep.top',
+		avatar: yzjAvatar,
+		descr: '小绵羊大人啊orz',
+	},
+	{
+		name: '偃木公',
+		link: 'https://chalgen.online',
+		avatar: sjsAvatar,
+		descr: '抽象大手子',
+	},
+	{
+		name: 'SeSame',
+		link: 'https://blog.minhan.host',
+		avatar: zmhAvatar,
+		descr: '信院大佬学姐带带我吧QvQ',
+	},
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={`友链 - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: min(1180px, calc(100% - 2rem));
+				padding: 2.5rem 0 4rem;
+			}
+
+			.page-header {
+				margin-bottom: 1.25rem;
+				padding: 1.25rem 1.35rem;
+				border: 1px solid rgba(var(--gray), 16%);
+				border-radius: 12px;
+				background: rgba(255, 255, 255, 78%);
+				box-shadow: 0 12px 30px rgba(var(--gray), 12%);
+			}
+
+			.page-header h1 {
+				margin: 0 0 0.35rem;
+				font-size: 2rem;
+			}
+
+			.page-header p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.96rem;
+				line-height: 1.7;
+			}
+
+			.friend-grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			.friend-card a {
+				display: grid;
+				grid-template-columns: 72px minmax(0, 1fr);
+				gap: 1rem;
+				align-items: center;
+				height: 100%;
+				min-height: 104px;
+				padding: 1rem;
+				border: 1px solid rgba(var(--gray), 16%);
+				border-radius: 12px;
+				background: rgba(255, 255, 255, 80%);
+				text-decoration: none;
+				transition:
+					transform 0.2s ease,
+					box-shadow 0.2s ease,
+					border-color 0.2s ease;
+			}
+
+			.friend-card a:hover {
+				transform: translateY(-2px);
+				border-color: rgba(var(--gray), 32%);
+				box-shadow: 0 14px 30px rgba(var(--gray), 16%);
+			}
+
+			.friend-avatar {
+				width: 72px;
+				height: 72px;
+				border-radius: 50%;
+				object-fit: cover;
+				box-shadow: 0 8px 18px rgba(var(--gray), 16%);
+			}
+
+			.friend-name {
+				margin: 0 0 0.35rem;
+				font-size: 1.08rem;
+				line-height: 1.3;
+			}
+
+			.friend-desc {
+				margin: 0 0 0.35rem;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				line-height: 1.55;
+			}
+
+			.friend-link {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.78rem;
+				line-height: 1.4;
+				word-break: break-all;
+			}
+
+			.apply-box {
+				margin-top: 1.25rem;
+				padding: 1rem 1.15rem;
+				border: 1px solid rgba(var(--gray), 16%);
+				border-radius: 12px;
+				background: rgba(255, 255, 255, 72%);
+				color: rgb(var(--gray-dark));
+				font-size: 0.92rem;
+			}
+
+			.apply-box strong {
+				display: block;
+				margin-bottom: 0.25rem;
+				color: rgb(var(--black));
+			}
+
+			.apply-box p {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+
+			@media (max-width: 820px) {
+				main {
+					width: min(100% - 1rem, 680px);
+					padding-top: 1rem;
+				}
+
+				.friend-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			@media (max-width: 420px) {
+				.friend-card a {
+					grid-template-columns: 56px minmax(0, 1fr);
+					gap: 0.8rem;
+					min-height: 88px;
+				}
+
+				.friend-avatar {
+					width: 56px;
+					height: 56px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-header">
+				<h1>友链</h1>
+				<p>朋友朋友朋友朋友and大佬</p>
+			</section>
+
+			<ul class="friend-grid">
+				{
+					friends.map((friend) => (
+						<li class="friend-card">
+							<a href={friend.link} target="_blank" rel="noreferrer">
+								<Image
+									class="friend-avatar"
+									src={friend.avatar}
+									alt={`${friend.name} avatar`}
+									width={144}
+									height={144}
+								/>
+								<div>
+									<h2 class="friend-name">{friend.name}</h2>
+									<p class="friend-desc">{friend.descr}</p>
+									<p class="friend-link">{friend.link}</p>
+								</div>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+
+			<div class="apply-box">
+				<strong>友链申请格式</strong>
+				<p>名称、链接、头像、简介。信息给我以后可以直接加进这个页面。</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
