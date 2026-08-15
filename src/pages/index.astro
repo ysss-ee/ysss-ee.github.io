@@ -234,7 +234,15 @@ const posts = (await getCollection('blog')).sort(
 		<main>
 			<div class="home-layout">
 				<aside class="profile-card" aria-label="Profile">
-					<Image class="avatar" src={avatarImage} alt={`${SITE_TITLE} avatar`} width={224} height={224} />
+					<Image
+						class="avatar"
+						src={avatarImage}
+						alt={`${SITE_TITLE} avatar`}
+						width={224}
+						height={224}
+						loading="eager"
+						fetchpriority="high"
+					/>
 					<div>
 						<h1>Yuan</h1>
 						<p>{SITE_DESCRIPTION}</p>
