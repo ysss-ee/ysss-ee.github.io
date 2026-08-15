@@ -388,7 +388,7 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 			</div>
 		</main>
 		<Footer />
-		<script is:inline>
+		<script is:inline data-astro-rerun>
 			const links = Array.from(document.querySelectorAll('.toc-link'));
 			const headings = links
 				.map((link) => {

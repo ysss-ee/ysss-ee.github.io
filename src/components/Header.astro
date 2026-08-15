@@ -5,7 +5,18 @@ import HeaderLink from './HeaderLink.astro';
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<h2>
+			<a href="/">
+				<svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
+					<path
+						fill="currentColor"
+						fill-rule="evenodd"
+						d="M12 2a10 10 0 1 0 0 20a10 10 0 1 0 0-20Zm3 3a7 7 0 1 1 0 14a7 7 0 1 1 0-14Z"
+					/>
+				</svg>
+				<span>{SITE_TITLE}</span>
+			</a>
+		</h2>
 		<div class="internal-links">
 			<HeaderLink href="/">主页</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
@@ -21,10 +32,19 @@ import HeaderLink from './HeaderLink.astro';
 		width: min(1180px, calc(100% - 2rem));
 		margin: 0.75rem auto 0;
 		padding: 0 1rem;
-		background: rgba(255, 255, 255, 92%);
-		border: 1px solid rgba(var(--gray), 14%);
+		background:
+			linear-gradient(
+				180deg,
+				rgba(255, 255, 255, 0.96) 0%,
+				rgba(255, 255, 255, 0.88) 100%
+			);
+		border: 1px solid rgba(255, 255, 255, 0.65);
 		border-radius: 16px;
-		box-shadow: 0 12px 30px rgba(var(--gray), 12%);
+		backdrop-filter: blur(10px) saturate(1.08);
+		-webkit-backdrop-filter: blur(10px) saturate(1.08);
+		box-shadow:
+			0 12px 30px rgba(0, 0, 0, 0.08),
+			inset 0 1px 0 rgba(255, 255, 255, 0.75);
 		box-sizing: border-box;
 	}
 
@@ -33,9 +53,23 @@ import HeaderLink from './HeaderLink.astro';
 		font-size: 1em;
 	}
 
+	h2 a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+	}
+
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
+	}
+
+	.moon-icon {
+		width: 16px;
+		height: 16px;
+		color: #79b7ff;
+		flex: 0 0 auto;
+		overflow: visible;
 	}
 
 	nav {

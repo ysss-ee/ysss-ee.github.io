@@ -31,12 +31,25 @@ const posts = (await getCollection('blog')).sort(
 			}
 
 			.profile-card {
-				position: sticky;
-				top: 1.5rem;
-				border: 1px solid rgba(var(--gray), 18%);
-				border-radius: 8px;
-				background: rgba(255, 255, 255, 86%);
-				box-shadow: 0 12px 34px rgba(var(--gray), 14%);
+				position: fixed;
+				top: 6rem;
+				left: max(1rem, calc((100vw - 1180px) / 2));
+				width: 280px;
+				border: 1px solid rgba(255, 255, 255, 0.72);
+				border-radius: 12px;
+				background:
+					linear-gradient(
+						180deg,
+						rgba(255, 255, 255, 0.88) 0%,
+						rgba(255, 255, 255, 0.76) 100%
+					);
+				backdrop-filter: blur(10px) saturate(1.08);
+				-webkit-backdrop-filter: blur(10px) saturate(1.08);
+				box-shadow:
+					0 12px 30px rgba(0, 0, 0, 0.08),
+					inset 0 1px 0 rgba(255, 255, 255, 0.92),
+					inset 0 -1px 0 rgba(255, 255, 255, 0.32);
+				box-sizing: border-box;
 				padding: 1.25rem;
 			}
 
@@ -91,6 +104,7 @@ const posts = (await getCollection('blog')).sort(
 			}
 
 			.posts-section {
+				grid-column: 2;
 				min-width: 0;
 			}
 
@@ -100,13 +114,15 @@ const posts = (await getCollection('blog')).sort(
 				align-items: end;
 				gap: 1rem;
 				margin-bottom: 1rem;
-				border-bottom: 1px solid rgba(var(--gray), 18%);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.42);
 				padding-bottom: 0.75rem;
 			}
 
 			.posts-heading h2 {
 				margin: 0;
+				color: #fff;
 				font-size: 1.35rem;
+				text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 			}
 
 			.posts-count {
@@ -210,8 +226,13 @@ const posts = (await getCollection('blog')).sort(
 					gap: 1rem;
 				}
 
+				.posts-section {
+					grid-column: auto;
+				}
+
 				.profile-card {
 					position: static;
+					width: auto;
 					display: grid;
 					grid-template-columns: 96px minmax(0, 1fr);
 					gap: 1rem;
@@ -259,7 +280,7 @@ const posts = (await getCollection('blog')).sort(
 
 				<section class="posts-section" aria-labelledby="posts-title">
 					<div class="posts-heading">
-						<h2 id="posts-title">文章</h2>
+						<h2 id="posts-title">hello</h2>
 						<p class="posts-count">{posts.length} 篇</p>
 					</div>
 					<ul class="post-list">
