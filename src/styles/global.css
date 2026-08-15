@@ -129,6 +129,154 @@ hr {
 	border-top: 1px solid rgb(var(--gray-light));
 }
 
+/* Friends page */
+.friends-layout {
+	display: grid;
+	grid-template-columns: 240px minmax(0, 1fr);
+	gap: 2rem;
+	align-items: start;
+}
+
+.friends-nav {
+	position: sticky;
+	top: 6rem;
+	padding: 1.15rem;
+	border: 1px solid rgba(255, 255, 255, 0.65);
+	border-radius: 14px;
+	background:
+		linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.92) 0%,
+			rgba(255, 255, 255, 0.78) 100%
+		);
+	backdrop-filter: blur(10px) saturate(1.08);
+	-webkit-backdrop-filter: blur(10px) saturate(1.08);
+	box-shadow:
+		0 12px 30px rgba(0, 0, 0, 0.08),
+		inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.friends-nav h1 {
+	margin: 0 0 1rem;
+	font-size: 1.8rem;
+	line-height: 1.15;
+}
+
+.friend-tab {
+	position: relative;
+	display: block;
+	width: 100%;
+	padding: 0.55rem 0.65rem 0.55rem 0.9rem;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	color: rgb(var(--gray));
+	font: inherit;
+	font-size: 0.98rem;
+	line-height: 1.35;
+	text-align: left;
+	cursor: pointer;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+}
+
+.friend-tab:hover {
+	background: rgba(255, 255, 255, 0.42);
+	color: rgb(var(--gray-dark));
+}
+
+.friend-tab.is-active {
+	color: rgb(var(--black));
+	font-weight: 700;
+}
+
+.friend-tab.is-active::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.62rem;
+	bottom: 0.62rem;
+	width: 4px;
+	border-radius: 999px;
+	background: #79b7ff;
+}
+
+.friends-panel {
+	display: none;
+}
+
+.friends-panel.is-active {
+	display: block;
+}
+
+.friend-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 2.2rem 1.5rem;
+	list-style: none;
+	margin: 0;
+	padding: 0.6rem 0 0;
+}
+
+.friend-card a {
+	display: grid;
+	justify-items: center;
+	gap: 0.65rem;
+	text-decoration: none;
+}
+
+.friend-avatar {
+	width: 62px;
+	height: 62px;
+	border-radius: 50%;
+	object-fit: cover;
+	box-shadow: 0 6px 14px rgba(var(--gray), 18%);
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
+}
+
+.friend-card a:hover .friend-avatar {
+	transform: translateY(-2px);
+	box-shadow: 0 10px 22px rgba(121, 183, 255, 0.28);
+}
+
+.friend-name {
+	margin: 0;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.86);
+	font-size: 0.8rem;
+	line-height: 1.25;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 820px) {
+	.friends-layout {
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+	}
+
+	.friends-nav {
+		position: static;
+	}
+
+	.friend-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 420px) {
+	.friend-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.friend-avatar {
+		width: 58px;
+		height: 58px;
+	}
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
 	animation-duration: 0.22s;

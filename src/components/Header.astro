@@ -18,9 +18,9 @@ import HeaderLink from './HeaderLink.astro';
 			</a>
 		</h2>
 		<div class="internal-links">
-			<HeaderLink href="/">主页</HeaderLink>
+			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/friends">友链</HeaderLink>
+			<HeaderLink href="/friends">Friends</HeaderLink>
 		</div>
 	</nav>
 </header>
@@ -90,6 +90,7 @@ import HeaderLink from './HeaderLink.astro';
 	}
 
 	nav a {
+		position: relative;
 		padding: 0.42rem 0.72rem;
 		color: var(--black);
 		border-radius: 8px;
@@ -103,15 +104,27 @@ import HeaderLink from './HeaderLink.astro';
 	}
 
 	nav a:hover {
-		background: rgba(255, 255, 255, 78%);
-		box-shadow: 0 8px 20px rgba(var(--gray), 18%);
-		transform: translateY(-1px);
+		background: rgba(255, 255, 255, 0.45);
 	}
 
 	nav a.active {
-		background: rgba(255, 255, 255, 62%);
-		box-shadow: inset 0 -3px 0 rgb(var(--gray));
+		background: transparent;
+		box-shadow: none;
+		color: rgb(var(--black));
+		font-weight: 700;
 		text-decoration: none;
+	}
+
+	nav a.active::after {
+		content: '';
+		position: absolute;
+		left: 0.72rem;
+		right: 0.72rem;
+		bottom: 0.16rem;
+		height: 3px;
+		border-radius: 999px;
+		background: #79b7ff;
+		box-shadow: 0 0 10px rgba(121, 183, 255, 0.42);
 	}
 
 	@media (max-width: 720px) {

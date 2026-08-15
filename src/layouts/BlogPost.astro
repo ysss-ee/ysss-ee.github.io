@@ -52,8 +52,8 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 			.toc {
 				position: sticky;
 				top: 8.5rem;
-				padding: 0.85rem 0 0.65rem;
-				border-left: 4px solid rgba(var(--gray), 16%);
+				padding: 0.75rem 0 0.65rem;
+				border-left: 1px solid rgba(255, 255, 255, 0.26);
 				background: transparent;
 			}
 
@@ -61,7 +61,7 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				padding: 0 1rem 0.65rem 1rem;
+				padding: 0 1rem 0.7rem 1rem;
 				color: rgba(255, 255, 255, 0.9);
 				font-size: 1rem;
 				font-weight: 700;
@@ -79,24 +79,54 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 			}
 
 			.toc-link {
+				position: relative;
 				display: block;
-				padding: 0.35rem 1rem;
-				color: rgba(255, 255, 255, 0.82);
+				padding: 0.34rem 1rem 0.34rem 1.05rem;
+				color: rgba(255, 255, 255, 0.7);
 				text-decoration: none;
-				font-size: 1rem;
+				font-size: 0.96rem;
 				line-height: 1.45;
-				border-radius: 10px;
+				border-radius: 0 10px 10px 0;
 				text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+				transition:
+					color 0.2s ease,
+					transform 0.2s ease,
+					background-color 0.2s ease;
 			}
 
 			.toc-link:hover {
-				background: rgba(255, 255, 255, 0.08);
+				background: rgba(255, 255, 255, 0.06);
+				color: rgba(255, 255, 255, 0.9);
+			}
+
+			.toc-link.depth-2 {
+				padding-left: 1.45rem;
+				font-size: 0.92rem;
+			}
+
+			.toc-link.depth-3 {
+				padding-left: 1.85rem;
+				font-size: 0.88rem;
+				color: rgba(255, 255, 255, 0.58);
 			}
 
 			.toc-link.is-active {
-				background: rgba(255, 255, 255, 0.14);
+				background: transparent;
 				color: #fff;
 				font-weight: 700;
+				transform: translateX(2px);
+			}
+
+			.toc-link.is-active::before {
+				content: '';
+				position: absolute;
+				left: -3px;
+				top: 0.42rem;
+				bottom: 0.42rem;
+				width: 4px;
+				border-radius: 999px;
+				background: #79b7ff;
+				box-shadow: 0 0 12px rgba(121, 183, 255, 0.62);
 			}
 
 			.toc-empty {
@@ -327,7 +357,7 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 							<ul class="toc-list">
 								{tableOfContents.map((heading) => (
 									<li class="toc-item">
-										<a class="toc-link" href={`#${heading.slug}`}>
+										<a class={`toc-link depth-${heading.depth}`} href={`#${heading.slug}`}>
 											{heading.text}
 										</a>
 									</li>
@@ -389,43 +419,47 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 		</main>
 		<Footer />
 		<script is:inline data-astro-rerun>
-			const links = Array.from(document.querySelectorAll('.toc-link'));
-			const headings = links
-				.map((link) => {
-					const id = link.getAttribute('href')?.slice(1);
-					return id ? document.getElementById(id) : null;
-				})
-				.filter((heading) => heading);
+			(() => {
+				const links = Array.from(document.querySelectorAll('.toc-link'));
+				const headings = links
+					.map((link) => {
+						const id = link.getAttribute('href')?.slice(1);
+						return id ? document.getElementById(id) : null;
+					})
+					.filter((heading) => heading);
 
-			if (headings.length > 0) {
+				if (headings.length === 0) return;
+
 				const setActive = (id) => {
 					links.forEach((link) => {
-						const isActive = link.getAttribute('href') === `#${id}`;
-						link.classList.toggle('is-active', isActive);
+						link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
 					});
 				};
 
-				const observer = new IntersectionObserver(
-					(entries) => {
-						const visible = entries
-							.filter((entry) => entry.isIntersecting)
-							.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+				const updateActiveHeading = () => {
+					const marker = window.scrollY + 150;
+					let activeHeading = headings[0];
 
-						if (visible[0]?.target?.id) {
-							setActive(visible[0].target.id);
+					for (const heading of headings) {
+						const top = heading.getBoundingClientRect().top + window.scrollY;
+						if (top <= marker) {
+							activeHeading = heading;
+						} else {
+							break;
 						}
-					},
-					{
-						rootMargin: '-20% 0px -70% 0px',
-						threshold: 0,
-					},
-				);
+					}
 
-				headings.forEach((heading) => observer.observe(heading));
+					if (activeHeading?.id) setActive(activeHeading.id);
+				};
 
-				const firstVisible = headings[0];
-				if (firstVisible?.id) setActive(firstVisible.id);
-			}
+				updateActiveHeading();
+				window.addEventListener('scroll', updateActiveHeading, { passive: true });
+				window.addEventListener('resize', updateActiveHeading);
+				document.addEventListener('astro:before-swap', () => {
+					window.removeEventListener('scroll', updateActiveHeading);
+					window.removeEventListener('resize', updateActiveHeading);
+				}, { once: true });
+			})();
 		</script>
 	</body>
 </html>
