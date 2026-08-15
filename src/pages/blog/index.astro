@@ -9,6 +9,7 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
+const uncategorized = '未分类';
 const slugify = (value: string) =>
 	value
 		.trim()
@@ -16,6 +17,8 @@ const slugify = (value: string) =>
 		.replace(/[\s_]+/g, '-')
 		.replace(/[^\p{L}\p{N}-]+/gu, '')
 		.replace(/-+/g, '-');
+
+const formatMonthDay = (date: Date) => date.toISOString().slice(5, 10);
 
 const byYear = posts.reduce<Record<string, typeof posts>>((acc, post) => {
 	const year = String(post.data.pubDate.getFullYear());
@@ -27,7 +30,7 @@ const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
 
 const categories = Object.entries(
 	posts.reduce<Record<string, { count: number; name: string }>>((acc, post) => {
-		const name = post.data.category ?? '未分类';
+		const name = post.data.category ?? uncategorized;
 		const key = slugify(name);
 		acc[key] = acc[key] ?? { count: 0, name };
 		acc[key].count += 1;
@@ -46,39 +49,22 @@ const categories = Object.entries(
 				padding: 2.5rem 0 4rem;
 			}
 
-			.page-header {
-				margin-bottom: 1.25rem;
-				padding: 1.25rem 1.35rem;
-				border: 1px solid rgba(var(--gray), 16%);
-				border-radius: 12px;
-				background: rgba(255, 255, 255, 78%);
-				box-shadow: 0 12px 30px rgba(var(--gray), 12%);
-			}
-
-			.page-header h1 {
-				margin: 0 0 0.35rem;
-				font-size: 2rem;
-			}
-
-			.page-header p {
-				margin: 0;
-				color: rgb(var(--gray));
-				font-size: 0.96rem;
-				line-height: 1.7;
-			}
-
 			.section {
 				margin-top: 1.25rem;
-				padding: 1.1rem 1.15rem;
+				padding: 1.15rem 1.25rem;
 				border: 1px solid rgba(var(--gray), 16%);
 				border-radius: 12px;
-				background: rgba(255, 255, 255, 76%);
+				background: rgba(255, 255, 255, 68%);
 				box-shadow: 0 12px 28px rgba(var(--gray), 10%);
+			}
+
+			.section:first-child {
+				margin-top: 0;
 			}
 
 			.section-title {
 				margin: 0 0 1rem;
-				font-size: 1.15rem;
+				font-size: 1.2rem;
 			}
 
 			.archive-list {
@@ -87,20 +73,19 @@ const categories = Object.entries(
 			}
 
 			details.year {
+				border: 1px solid rgba(var(--gray), 12%);
 				border-radius: 12px;
-				background: rgba(255, 255, 255, 78%);
-				border: 1px solid rgba(var(--gray), 14%);
+				background: rgba(255, 255, 255, 82%);
 				overflow: hidden;
 			}
 
 			details.year[open] {
-				background: rgba(240, 246, 255, 88%);
-				border-color: rgba(92, 150, 235, 30%);
+				background: rgba(242, 248, 255, 88%);
 			}
 
 			summary.year-summary {
 				display: grid;
-				grid-template-columns: 112px 22px auto 1fr;
+				grid-template-columns: 120px 24px auto 1fr;
 				align-items: center;
 				gap: 1rem;
 				padding: 1rem 1.1rem;
@@ -114,7 +99,7 @@ const categories = Object.entries(
 			}
 
 			.year-label {
-				font-size: 1.35rem;
+				font-size: 1.45rem;
 				font-weight: 700;
 				color: rgb(var(--black));
 			}
@@ -122,23 +107,20 @@ const categories = Object.entries(
 			.year-dot {
 				width: 12px;
 				height: 12px;
-				border-radius: 50%;
-				border: 3px solid rgba(86, 153, 235, 100%);
+				border: 3px solid rgb(86, 153, 235);
+				border-radius: 999px;
 				background: white;
 			}
 
 			.year-meta {
-				display: flex;
-				align-items: center;
-				gap: 0.4rem;
 				color: rgb(var(--gray));
-				font-size: 0.94rem;
+				font-size: 0.95rem;
 			}
 
 			.year-arrow {
 				justify-self: end;
 				color: rgb(var(--gray));
-				font-size: 1.15rem;
+				font-size: 1.1rem;
 				transition: transform 0.2s ease;
 			}
 
@@ -147,53 +129,54 @@ const categories = Object.entries(
 			}
 
 			.year-posts {
-				border-top: 1px dashed rgba(var(--gray), 18%);
-				padding: 0.5rem 1.1rem 1rem 1.1rem;
-			}
-
-			.year-post {
 				display: grid;
-				grid-template-columns: 72px 18px 1fr 160px;
-				gap: 1rem;
+				border-top: 1px dashed rgba(var(--gray), 16%);
+				padding: 0.7rem 1.1rem 0.95rem;
+			}
+
+			.archive-post {
+				display: grid;
+				grid-template-columns: 76px 28px minmax(0, 1fr);
+				gap: 0.9rem;
 				align-items: center;
-				padding: 0.85rem 0;
+				min-height: 42px;
 			}
 
-			.year-date {
+			.post-date {
 				color: rgb(var(--gray));
-				font-size: 0.88rem;
-				text-align: left;
+				font-size: 0.9rem;
 			}
 
-			.year-line {
+			.timeline {
 				position: relative;
 				display: flex;
+				align-items: center;
 				justify-content: center;
+				align-self: stretch;
 			}
 
-			.year-line::before {
+			.timeline::before {
 				content: '';
 				position: absolute;
-				top: -12px;
-				bottom: -12px;
+				top: 0;
+				bottom: 0;
 				left: 50%;
 				width: 2px;
-				background: rgba(var(--gray), 16%);
+				background: rgba(var(--gray), 15%);
 				transform: translateX(-50%);
 			}
 
-			.year-bullet {
+			.timeline-dot {
 				position: relative;
 				z-index: 1;
 				width: 8px;
 				height: 8px;
-				margin-top: 3px;
-				border-radius: 50%;
+				border-radius: 999px;
 				background: rgb(86, 153, 235);
 			}
 
-			.year-link {
-				display: flex;
+			.post-link {
+				display: inline-flex;
 				align-items: center;
 				gap: 0.7rem;
 				min-width: 0;
@@ -201,23 +184,24 @@ const categories = Object.entries(
 				text-decoration: none;
 			}
 
-			.year-cat {
+			.post-link:hover .post-title {
+				color: rgb(86, 153, 235);
+			}
+
+			.post-category {
 				flex: none;
 				padding: 0.2rem 0.5rem;
 				border-radius: 8px;
 				background: rgba(86, 153, 235, 14%);
 				color: rgb(86, 153, 235);
-				font-size: 0.8rem;
+				font-size: 0.82rem;
 			}
 
-			.year-title {
+			.post-title {
 				margin: 0;
+				color: rgb(var(--black));
 				font-size: 1rem;
-				line-height: 1.4;
-			}
-
-			.year-link:hover .year-title {
-				color: rgb(86, 153, 235);
+				line-height: 1.35;
 			}
 
 			.category-grid {
@@ -229,9 +213,9 @@ const categories = Object.entries(
 			.category-card {
 				display: block;
 				padding: 1rem 1.1rem;
-				border: 1px solid rgba(var(--gray), 16%);
-				border-radius: 12px;
-				background: rgba(255, 255, 255, 80%);
+				border: 1px solid rgba(var(--gray), 14%);
+				border-radius: 10px;
+				background: rgba(255, 255, 255, 78%);
 				color: inherit;
 				text-decoration: none;
 				transition:
@@ -242,12 +226,12 @@ const categories = Object.entries(
 
 			.category-card:hover {
 				transform: translateY(-1px);
-				border-color: rgba(var(--gray), 30%);
-				box-shadow: 0 12px 26px rgba(var(--gray), 14%);
+				border-color: rgba(var(--gray), 28%);
+				box-shadow: 0 12px 26px rgba(var(--gray), 12%);
 			}
 
 			.category-name {
-				margin: 0 0 0.3rem;
+				margin: 0 0 0.25rem;
 				font-size: 1.05rem;
 			}
 
@@ -264,20 +248,22 @@ const categories = Object.entries(
 				}
 
 				summary.year-summary {
-					grid-template-columns: 88px 18px auto 1fr;
+					grid-template-columns: 86px 20px auto 1fr;
 					gap: 0.7rem;
 				}
 
-				.year-post {
-					grid-template-columns: 64px 14px 1fr;
+				.year-label {
+					font-size: 1.25rem;
 				}
 
-				.year-link {
-					grid-column: 3;
+				.archive-post {
+					grid-template-columns: 58px 22px minmax(0, 1fr);
+					gap: 0.6rem;
 				}
 
-				.year-arrow {
-					display: none;
+				.post-link {
+					flex-wrap: wrap;
+					gap: 0.45rem;
 				}
 
 				.category-grid {
@@ -303,12 +289,14 @@ const categories = Object.entries(
 								</summary>
 								<div class="year-posts">
 									{byYear[year].map((post) => (
-										<div class="year-post">
-											<div class="year-date">{post.data.pubDate.toISOString().slice(5, 10)}</div>
-											<div class="year-line"><span class="year-bullet" aria-hidden="true"></span></div>
-											<a class="year-link" href={`/blog/${post.id}/`}>
-												<span class="year-cat">{post.data.category ?? '未分类'}</span>
-												<h3 class="year-title">{post.data.title}</h3>
+										<div class="archive-post">
+											<span class="post-date">{formatMonthDay(post.data.pubDate)}</span>
+											<span class="timeline" aria-hidden="true">
+												<span class="timeline-dot"></span>
+											</span>
+											<a class="post-link" href={`/blog/${post.id}/`}>
+												<span class="post-category">{post.data.category ?? uncategorized}</span>
+												<h3 class="post-title">{post.data.title}</h3>
 											</a>
 										</div>
 									))}

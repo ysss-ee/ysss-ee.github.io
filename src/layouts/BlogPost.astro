@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
@@ -8,75 +7,161 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, tags, category } = Astro.props;
+const displayTags = tags ?? [];
 ---
 
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
 			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
+				width: min(1240px, calc(100% - 1rem));
+				margin: 2.5rem auto 0;
+				padding: 0 0 4rem;
+			}
+
+			.post-shell {
+				background: #fff;
+				border-radius: 18px;
+				padding: 2rem 2.25rem 2.5rem;
+				box-shadow: none;
+				color: rgb(var(--black));
+			}
+
+			.post-head {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0.35rem;
+			}
+
+			.post-title-row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				column-gap: 0.65rem;
+				row-gap: 0.2rem;
+				min-width: 0;
+			}
+
+			.post-title {
 				margin: 0;
+				font-size: 2.6rem;
+				line-height: 1.15;
+				text-align: left;
 			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
+
+			.post-meta {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.45rem;
 				color: rgb(var(--gray));
+				font-size: 1rem;
+				white-space: nowrap;
 			}
-			.last-updated-on {
-				font-style: italic;
+
+			.meta-divider {
+				color: rgba(var(--gray), 70%);
+			}
+
+			.post-description {
+				margin: 0;
+				color: rgb(var(--gray-dark));
+				font-size: 1.08rem;
+				line-height: 1.7;
+			}
+
+			.tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				margin-top: 0.2rem;
+			}
+
+			.tag {
+				padding: 0.22rem 0.55rem;
+				border-radius: 8px;
+				background: rgba(var(--gray), 10%);
+				color: rgb(var(--gray-dark));
+				font-size: 0.82rem;
+			}
+
+			.divider {
+				height: 1px;
+				margin: 1.2rem 0 1.4rem;
+				background: rgba(0, 0, 0, 0.7);
+			}
+
+			.content {
+				color: rgb(var(--gray-dark));
+				font-size: 1.05rem;
+				line-height: 1.9;
+			}
+
+			.content :global(h2),
+			.content :global(h3),
+			.content :global(h4) {
+				margin-top: 1.6rem;
+			}
+
+			.content :global(p) {
+				margin: 0 0 1rem;
+			}
+
+			.content :global(blockquote) {
+				border-left: 0;
+				padding-left: 0;
+				margin-left: 0;
+				font-size: inherit;
+			}
+
+			@media (max-width: 820px) {
+				main {
+					width: min(100% - 0.5rem, 720px);
+					margin-top: 0.5rem;
+				}
+
+				.post-shell {
+					padding: 1.25rem 1rem 2rem;
+				}
+
+				.post-title {
+					font-size: 1.9rem;
+				}
+
+				.post-description {
+					font-size: 1rem;
+				}
 			}
 		</style>
 	</head>
-
 	<body>
 		<Header />
 		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
+			<article class="post-shell">
+				<header class="post-head">
+					<div class="post-title-row">
+						<h1 class="post-title">{title}</h1>
+						<div class="post-meta">
 							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+							<span class="meta-divider">|</span>
+							<span>{category ?? '鏈垎绫?'}</span>
 						</div>
-						<h1>{title}</h1>
-						<hr />
 					</div>
+					<p class="post-description">{description}</p>
+					{
+						displayTags.length > 0 && (
+							<div class="tags" aria-label="tags">
+								{displayTags.map((tag) => <span class="tag">{tag}</span>)}
+							</div>
+						)
+					}
+				</header>
+
+				<div class="divider" aria-hidden="true"></div>
+
+				<div class="content">
 					<slot />
 				</div>
 			</article>

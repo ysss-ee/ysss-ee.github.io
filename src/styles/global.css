@@ -17,7 +17,11 @@
 		0 16px 32px rgba(var(--gray), 33%);
 }
 body {
-	font-family: var(--font-atkinson);
+	font-family:
+		Arial,
+		Helvetica,
+		"Helvetica Neue",
+		sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -45,6 +49,13 @@ h6 {
 	margin: 0 0 0.5rem 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
+	font-family:
+		Arial,
+		Helvetica,
+		"Helvetica Neue",
+		sans-serif;
+	font-weight: 700;
+	letter-spacing: 0;
 }
 h1 {
 	font-size: 3.052em;

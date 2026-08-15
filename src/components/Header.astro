@@ -15,6 +15,9 @@ import HeaderLink from './HeaderLink.astro';
 </header>
 <style>
 	header {
+		position: sticky;
+		top: 0.75rem;
+		z-index: 50;
 		width: min(1180px, calc(100% - 2rem));
 		margin: 0.75rem auto 0;
 		padding: 0 1rem;
@@ -79,7 +82,8 @@ import HeaderLink from './HeaderLink.astro';
 
 	@media (max-width: 720px) {
 		header {
-			width: min(100% - 1rem, 680px);
+			top: 0.5rem;
+			width: min(100% - 0.5rem, 720px);
 			margin-top: 0.5rem;
 			padding: 0 0.75rem;
 			border-radius: 14px;
