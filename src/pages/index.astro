@@ -148,10 +148,23 @@ const posts = (await getCollection('blog')).sort(
 			}
 
 			.post-title {
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
 				margin: 0;
 				color: rgb(var(--black));
 				font-size: 1.45rem;
 				line-height: 1.35;
+			}
+
+			.post-title::before {
+				content: '';
+				display: inline-block;
+				width: 6px;
+				height: 0.95em;
+				border-radius: 999px;
+				background: #79b7ff;
+				flex: 0 0 auto;
 			}
 
 			.post-description {

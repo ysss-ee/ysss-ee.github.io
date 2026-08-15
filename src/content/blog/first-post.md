@@ -1,8 +1,8 @@
 ---
 title: 'Hello world'
-description: '只是一个标志啦'
+description: '只是一个锚点啦'
 category: '随笔'
-pubDate: 'Jul 08 2022'
+pubDate: '10 20 2025'
 heroImage: ''
 tags:
   - '111'
