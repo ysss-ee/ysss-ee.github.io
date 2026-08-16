@@ -28,9 +28,7 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background:
-		linear-gradient(rgba(8, 12, 28, 24%), rgba(8, 12, 28, 36%)),
-		url('/background.jpg') center top / cover fixed no-repeat;
+	background: #08101f;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
