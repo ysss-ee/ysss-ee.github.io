@@ -2,11 +2,11 @@
 const bars = Array.from({ length: 72 });
 ---
 
-<div class="music-bars" aria-hidden="true">
+<div class="music-bars" aria-hidden="true" transition:animate="fade">
 	{bars.map((_, index) => <span style={`--i: ${index}`}></span>)}
 </div>
 
-<footer>
+<footer transition:animate="fade">
 	<div class="footer-text">期待下次见面</div>
 </footer>
 <style>
