@@ -109,7 +109,7 @@ import HeaderLink from './HeaderLink.astro';
 		background: rgba(255, 255, 255, 0.45);
 	}
 
-	nav a.active {
+	nav :global(a.active) {
 		background: transparent;
 		box-shadow: none;
 		color: rgb(var(--black));
@@ -117,7 +117,7 @@ import HeaderLink from './HeaderLink.astro';
 		text-decoration: none;
 	}
 
-	nav a.active::after {
+	nav :global(a.active)::after {
 		content: '';
 		position: absolute;
 		left: 0.72rem;
