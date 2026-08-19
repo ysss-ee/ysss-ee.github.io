@@ -222,8 +222,8 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 
 			.content {
 				color: rgb(var(--gray-dark));
-				font-size: 1.05rem;
-				line-height: 1.9;
+				font-size: 1.02rem;
+				line-height: 1.4;
 			}
 
 			.content :global(h1) {
@@ -257,6 +257,16 @@ const tableOfContents = headings.filter((heading) => heading.depth >= 1 && headi
 				padding-left: 0;
 				margin-left: 0;
 				font-size: inherit;
+			}
+
+			.content :global(.katex) {
+				font-size: 1.02em;
+			}
+
+			.content :global(.katex-display) {
+				margin: 1.1rem 0;
+				overflow-x: auto;
+				overflow-y: hidden;
 			}
 
 			.post-nav {
