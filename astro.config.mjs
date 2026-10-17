@@ -9,7 +9,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://www.ysss-ee.xyz/',
+	site: 'https://blog.yssso.cn/',
 	markdown: {
 		processor: unified({
 			remarkPlugins: [remarkMath],

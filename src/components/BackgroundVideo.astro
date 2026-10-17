@@ -5,13 +5,48 @@
 		muted
 		loop
 		playsinline
-		preload="metadata"
+		preload="none"
 		poster="/background.jpg"
-	>
-		<source src="/wallpaper.mp4" type="video/mp4" />
-	</video>
+		data-src="/wallpaper.mp4"
+	></video>
 	<div class="site-background-tint"></div>
 </div>
+
+<script is:inline>
+	(() => {
+		const loadBackgroundVideo = () => {
+			const video = document.querySelector('.site-background-media[data-src]');
+			if (!video) return;
+
+			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const savesData = navigator.connection?.saveData;
+			if (prefersReducedMotion || savesData) return;
+
+			video.src = video.dataset.src;
+			video.removeAttribute('data-src');
+			video.load();
+			video.play().catch(() => {});
+		};
+
+		const scheduleVideoLoad = () => {
+			const start = () => window.setTimeout(loadBackgroundVideo, 1500);
+
+			if ('requestIdleCallback' in window) {
+				window.requestIdleCallback(start, { timeout: 3000 });
+				return;
+			}
+
+			start();
+		};
+
+		if (document.readyState === 'complete') {
+			scheduleVideoLoad();
+			return;
+		}
+
+		window.addEventListener('load', scheduleVideoLoad, { once: true });
+	})();
+</script>
 
 <style>
 	.site-background {
