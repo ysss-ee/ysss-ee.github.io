@@ -5,48 +5,12 @@
 		muted
 		loop
 		playsinline
-		preload="none"
-		poster="/background.jpg"
-		data-src="/wallpaper.mp4"
+		preload="auto"
+		poster="/background.20261020.jpg"
+		src="/wallpaper.20261020.mp4"
 	></video>
 	<div class="site-background-tint"></div>
 </div>
-
-<script is:inline>
-	(() => {
-		const loadBackgroundVideo = () => {
-			const video = document.querySelector('.site-background-media[data-src]');
-			if (!video) return;
-
-			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			const savesData = navigator.connection?.saveData;
-			if (prefersReducedMotion || savesData) return;
-
-			video.src = video.dataset.src;
-			video.removeAttribute('data-src');
-			video.load();
-			video.play().catch(() => {});
-		};
-
-		const scheduleVideoLoad = () => {
-			const start = () => window.setTimeout(loadBackgroundVideo, 1500);
-
-			if ('requestIdleCallback' in window) {
-				window.requestIdleCallback(start, { timeout: 3000 });
-				return;
-			}
-
-			start();
-		};
-
-		if (document.readyState === 'complete') {
-			scheduleVideoLoad();
-			return;
-		}
-
-		window.addEventListener('load', scheduleVideoLoad, { once: true });
-	})();
-</script>
 
 <style>
 	.site-background {
@@ -54,7 +18,7 @@
 		inset: 0;
 		z-index: -2;
 		overflow: hidden;
-		background: #08101f url('/background.jpg') center / cover no-repeat;
+		background: #08101f url('/background.20261020.jpg') center / cover no-repeat;
 		pointer-events: none;
 	}
 
