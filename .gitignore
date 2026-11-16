@@ -26,3 +26,9 @@ pnpm-debug.log*
 # local generated video variants
 public/wallpaper.original-with-audio.mp4
 public/wallpaper.webm
+
+# 本地文件
+hide/
+*.tar.gz
+*.zip
+notes/
